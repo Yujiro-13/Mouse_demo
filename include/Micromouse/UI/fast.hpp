@@ -1,24 +1,26 @@
 #ifndef FAST_HPP
 #define FAST_HPP
 
-#include "Micromouse.hpp"
+#include <iostream>
+#include "UI.hpp"
 
-class Fast : public Micromouse
+
+class Fast : public UI
 {
     void main_task() override;
 };
 
-class Fast2 : public Micromouse
+class Fast2 : public UI
 {
     void main_task() override;
 };
 
-class Fast3 : public Micromouse
+class Fast3 : public UI
 {
     void main_task() override;
 };
 
-class Fast4 : public Micromouse
+class Fast4 : public UI
 {
     void main_task() override;
 };

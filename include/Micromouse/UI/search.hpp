@@ -1,14 +1,15 @@
 #ifndef SEARCH_HPP
 #define SEARCH_HPP
 
-#include "Micromouse.hpp"
+#include <iostream>
+#include "UI.hpp"
 
-class Search : public Micromouse
+class Search : public UI
 {
     void main_task() override;
 };
 
-class All_Search : public Micromouse
+class All_Search : public UI
 {
     void main_task() override;
 };

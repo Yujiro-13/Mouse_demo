@@ -1,14 +1,15 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
-#include "Micromouse.hpp"
+#include <iostream>
+#include "UI.hpp"
 
-class Log : public Micromouse
+class Log : public UI
 {
     void main_task() override;
 };
 
-class Log1 : public Micromouse
+class Log1 : public UI
 {
     void main_task() override;
 };

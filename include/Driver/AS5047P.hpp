@@ -14,19 +14,30 @@
 #define ENC_MAX 16384
 #define ENC_HALF 8192
 
-class AS5047P : public Sensor{
-    public:
-        AS5047P();
-        ~AS5047P();
+class AS5047P : public Sensor
+{
+public:
+    AS5047P(spi_host_device_t bus,gpio_num_t cs);
+    ~AS5047P();
 
-        void init_spi(spi_host_device_t bus, gpio_num_t cs) override;
-        uint16_t readAngle();
-        void ShowAngle();
-    private:
-        uint16_t read16(uint8_t reg) override;
-        gpio_num_t _cs;
-        uint8_t CalcParity(uint16_t data);
-        spi_device_handle_t _spi;
+    void GetData() override;
+    uint16_t readAngle();
+    void ShowAngle();
+
+private:
+    uint8_t CalcParity(uint16_t data);
+    uint16_t read16(uint16_t reg);
+    esp_err_t err;
+    spi_transaction_t cmd;
+    spi_device_handle_t _spi;
+    spi_bus_config_t bus_enc;
+    spi_device_interface_config_t dev_enc;
+    gpio_num_t _cs;
+    gpio_num_t ENC_MISO = GPIO_NUM_35;
+    gpio_num_t ENC_MOSI = GPIO_NUM_36;
+    gpio_num_t ENC_CLK = GPIO_NUM_34;
+    gpio_num_t ENC_CS_R = GPIO_NUM_1;
+    gpio_num_t ENC_CS_L = GPIO_NUM_6;
 };
 
 #endif

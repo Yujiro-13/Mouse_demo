@@ -1,24 +1,25 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
-#include "Micromouse.hpp"
+#include <iostream>
+#include "UI.hpp"
 
-class Test : public Micromouse
+class Test : public UI
 {
     void main_task() override;
 };
 
-class Test2 : public Micromouse
+class Test2 : public UI
 {
     void main_task() override;
 };
 
-class Test3 : public Micromouse
+class Test3 : public UI
 {
     void main_task() override;
 };
 
-class Test4 : public Micromouse
+class Test4 : public UI
 {
     void main_task() override;
 };

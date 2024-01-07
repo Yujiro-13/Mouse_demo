@@ -7,9 +7,16 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"*/
 #include <math.h>
+#include "structs.hpp"
 
-void initMotors();
-void setMotorSpeed(float spdR, float spdL,float fan);
-void sincurve();
+
+class Motor
+{
+public:
+    Motor(gpio_num_t ph_pin_R, gpio_num_t en_pin_R, gpio_num_t ph_pin_L, gpio_num_t en_pin_L, gpio_num_t fan_pin);
+    ~Motor();
+    void setMotorSpeed(float spdR, float spdL, float fan);
+    void sincurve();
+};
 
 #endif

@@ -3,11 +3,13 @@
 
 #include <iostream>
 
-#define _interface struct
 
-_interface Micromouse
+
+class Micromouse
 {
-    virtual void main_task() = 0;
+    
 };
+
+
 
 #endif // MICROMOUSE_HPP
