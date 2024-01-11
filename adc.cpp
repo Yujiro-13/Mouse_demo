@@ -74,17 +74,17 @@ void ADC::WallSensor()
     SetIRLED(0b0000);                   // 全消灯
     vTaskDelay(1 / portTICK_PERIOD_MS); // 1ms待つ
 
-    w_sens.val.fl = sensors[0] - before[0];
-    w_sens.val.l = sensors[1] - before[1];
-    w_sens.val.r = sensors[2] - before[2];
-    w_sens.val.fr = sensors[3] - before[3];
+    sens.wall.val.fl = sensors[0] - before[0];
+    sens.wall.val.l = sensors[1] - before[1];
+    sens.wall.val.r = sensors[2] - before[2];
+    sens.wall.val.fr = sensors[3] - before[3];
 }
 
 void ADC::GetData() // オーバーライドしているから引数をvoid *pvparamにできない
 {
     while (1)
     {
-        ct.Vatt = BatteryVoltage(); // 他のタスクやループ内で呼ぼうとするとADCが上手く読めないのでここで呼ぶ
+        ctl.Vatt = BatteryVoltage(); // 他のタスクやループ内で呼ぼうとするとADCが上手く読めないのでここで呼ぶ
         WallSensor();
     }
 }
