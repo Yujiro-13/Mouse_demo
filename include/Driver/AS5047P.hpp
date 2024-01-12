@@ -20,7 +20,7 @@ public:
     AS5047P(spi_host_device_t bus,gpio_num_t cs);
     ~AS5047P();
 
-    void GetData() override;
+    void GetData(t_sens_data *_sens) override;
     uint16_t readAngle();
     void ShowAngle();
 
@@ -33,11 +33,9 @@ private:
     spi_bus_config_t bus_enc;
     spi_device_interface_config_t dev_enc;
     gpio_num_t _cs;
-    gpio_num_t ENC_MISO = GPIO_NUM_35;
-    gpio_num_t ENC_MOSI = GPIO_NUM_36;
-    gpio_num_t ENC_CLK = GPIO_NUM_34;
-    gpio_num_t ENC_CS_R = GPIO_NUM_1;
-    gpio_num_t ENC_CS_L = GPIO_NUM_6;
+
+    t_sens_data *sen;
+    
 };
 
 #endif

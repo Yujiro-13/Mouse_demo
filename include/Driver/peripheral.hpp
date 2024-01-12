@@ -5,19 +5,7 @@
 
 #include <iostream>
 #include <string>
-/*#include "driver/gpio.h"
-#include "driver/i2c.h"
-#include "driver/spi_master.h"
-#include "soc/gpio_struct.h"
-#include "sdkconfig.h"
-#include "PCA9632.hpp"
-#include "MPU6500.hpp"
-#include "Buzzer.hpp"
-#include "AS5047P.hpp"
-#include "driver/ledc.h"
-#include "include/Motor.hpp"
-#include "include/adc.hpp"*/
-#include "structs.hpp"
+#include "../Micromouse/structs.hpp"
 
 constexpr gpio_num_t LED_SDA = GPIO_NUM_37;
 constexpr gpio_num_t LED_SCL = GPIO_NUM_38;
@@ -76,15 +64,10 @@ constexpr gpio_num_t BDC_L_MCPWM_GPIO_PH = GPIO_NUM_41;
 constexpr gpio_num_t BDC_L_MCPWM_GPIO_EN = GPIO_NUM_42;
 constexpr gpio_num_t FAN_PIN = GPIO_NUM_13;
 
-/*extern PCA9632 led;
-extern MPU6500 imu;
-extern BUZZER  buzz;
-extern AS5047P encR;
-extern AS5047P encL;*/
-IRLED_FR* LED_FR;
+/*IRLED_FR* LED_FR;
 IRLED_FL* LED_FL;
 IRLED_R* LED_R;
-IRLED_L* LED_L;
+IRLED_L* LED_L;*/
 
 
 #endif

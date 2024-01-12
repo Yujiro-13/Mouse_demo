@@ -7,7 +7,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <math.h>
-#include "sensor.hpp"
+#include "../Micromouse/structs.hpp"
+
 
 class PCA9632
 {
@@ -23,14 +24,14 @@ private:
     i2c_port_t _port;
     uint8_t _adrs;
     uint8_t read(uint8_t reg);
-    uint8_t write(uint8_t reg, uint8_t data);
+    esp_err_t write(uint8_t reg, uint8_t data);
     float speed;
     uint8_t mode;
     gpio_num_t LED_SDA = GPIO_NUM_37;
     gpio_num_t LED_SCL = GPIO_NUM_38;
     uint LED_FREQ = 1000 * 1000;
     uint8_t LED_ADRS = 0x62;
-    i2c_config_t i2c_conf;
+    //i2c_config_t i2c_conf;
 };
 
 #endif // PCA9632_HPP

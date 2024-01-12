@@ -2,7 +2,8 @@
 #define SENSOR_HPP
 
 #include <iostream>
-#include "structs.hpp"
+//#include "structs.hpp"
+#include "peripheral.hpp"
 
 
 /*
@@ -14,7 +15,7 @@
 
 _driver Sensor 
 {
-    virtual void GetData() = 0;
+    virtual void GetData(t_sens_data *_sens) = 0;
 };
 
 #endif // SENSOR_HPP

@@ -4,13 +4,14 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include "structs.hpp"
-#include "adc.hpp"
-#include "AS5047P.hpp"
-#include "Buzzer.hpp"
-#include "Motor.hpp"
-#include "MPU6500.hpp"
-#include "PCA9632.hpp"
+//#include "structs.hpp"
+#include "../Driver/adc.hpp"
+#include "../Driver/AS5047P.hpp"
+#include "../Driver/Buzzer.hpp"
+#include "../Driver/MPU6500.hpp"
+#include "../Driver/PCA9632.hpp"
+#include "../Driver/Motor.hpp"
+
 
 
 
@@ -26,7 +27,7 @@ Interface Micromouse
     virtual void set_module(ADC &_adc, AS5047P &_encR, AS5047P &_encL, BUZZER &_buz, MPU6500 &_imu, PCA9632 &_led, Motor &_mot) = 0;
 };
 
-void MICROMOUSE(){}
+void MICROMOUSE();
 
 
 

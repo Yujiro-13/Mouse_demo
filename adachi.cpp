@@ -19,11 +19,11 @@ void Adachi::init_map(int x, int y)
 	{
 		for (j = 0; j < MAZESIZE_Y; j++) // 迷路の大きさ分ループ(y座標)
 		{
-			map.size[i][j] = 255; // すべて255で埋める  ex)map[1][1] = 255,map[1][2] = 255, ...map[1][9] = 255,map[2][1] = 255...
+			map->size[i][j] = 255; // すべて255で埋める  ex)map[1][1] = 255,map[1][2] = 255, ...map[1][9] = 255,map[2][1] = 255...
 		}
 	}
 
-	map.size[x][y] = 0; // ゴール座標の歩数を０に設定
+	map->size[x][y] = 0; // ゴール座標の歩数を０に設定
 }
 
 void Adachi::make_map(int x, int y, int mask) // 歩数マップを作成する
@@ -43,18 +43,18 @@ void Adachi::make_map(int x, int y, int mask) // 歩数マップを作成する
 		{
 			for (j = 0; j < MAZESIZE_Y; j++) // 迷路の大きさ分ループ(y座標)
 			{
-				if (map.size[i][j] == 255) // 255の場合は次へ
+				if (map->size[i][j] == 255) // 255の場合は次へ
 				{
 					continue;
 				}
 
 				if (j < MAZESIZE_Y - 1) // 範囲チェック
 				{
-					if ((map.wall[i][j].north & mask) == NOWALL) // 壁がなければ(maskの意味はstatic_parametersを参照)
+					if ((map->wall[i][j].north & mask) == NOWALL) // 壁がなければ(maskの意味はstatic_parametersを参照)
 					{
-						if (map.size[i][j + 1] == 255) // まだ値が入っていなければ
+						if (map->size[i][j + 1] == 255) // まだ値が入っていなければ
 						{
-							map.size[i][j + 1] = map.size[i][j] + 1; // 値を代入
+							map->size[i][j + 1] = map->size[i][j] + 1; // 値を代入
 							change_flag = TRUE;			   // 値が更新されたことを示す
 						}
 					}
@@ -62,11 +62,11 @@ void Adachi::make_map(int x, int y, int mask) // 歩数マップを作成する
 
 				if (i < MAZESIZE_X - 1) // 範囲チェック
 				{
-					if ((map.wall[i][j].east & mask) == NOWALL) // 壁がなければ
+					if ((map->wall[i][j].east & mask) == NOWALL) // 壁がなければ
 					{
-						if (map.size[i + 1][j] == 255) // 値が入っていなければ
+						if (map->size[i + 1][j] == 255) // 値が入っていなければ
 						{
-							map.size[i + 1][j] = map.size[i][j] + 1; // 値を代入
+							map->size[i + 1][j] = map->size[i][j] + 1; // 値を代入
 							change_flag = TRUE;			   // 値が更新されたことを示す
 						}
 					}
@@ -74,11 +74,11 @@ void Adachi::make_map(int x, int y, int mask) // 歩数マップを作成する
 
 				if (j > 0) // 範囲チェック
 				{
-					if ((map.wall[i][j].south & mask) == NOWALL) // 壁がなければ
+					if ((map->wall[i][j].south & mask) == NOWALL) // 壁がなければ
 					{
-						if (map.size[i][j - 1] == 255) // 値が入っていなければ
+						if (map->size[i][j - 1] == 255) // 値が入っていなければ
 						{
-							map.size[i][j - 1] = map.size[i][j] + 1; // 値を代入
+							map->size[i][j - 1] = map->size[i][j] + 1; // 値を代入
 							change_flag = TRUE;			   // 値が更新されたことを示す
 						}
 					}
@@ -86,11 +86,11 @@ void Adachi::make_map(int x, int y, int mask) // 歩数マップを作成する
 
 				if (i > 0) // 範囲チェック
 				{
-					if ((map.wall[i][j].west & mask) == NOWALL) // 壁がなければ
+					if ((map->wall[i][j].west & mask) == NOWALL) // 壁がなければ
 					{
-						if (map.size[i - 1][j] == 255) // 値が入っていなければ
+						if (map->size[i - 1][j] == 255) // 値が入っていなければ
 						{
-							map.size[i - 1][j] = map.size[i][j] + 1; // 値を代入
+							map->size[i - 1][j] = map->size[i][j] + 1; // 値を代入
 							change_flag = TRUE;			   // 値が更新されたことを示す
 						}
 					}
@@ -108,68 +108,68 @@ void Adachi::set_wall(int x, int y) // 壁情報を記録
 
 	// 自分の方向に応じて書き込むデータを生成
 	// CONV_SEN2WALL()はmacro.hを参照
-	switch (map.pos.dir)
+	switch (map->pos.dir)
 	{
 	case NORTH: // 北を向いている時
 
-		n_write = CONV_SEN2WALL(sens.wall.exist_wall.fr || sens.wall.exist_wall.fl); // 前壁の有無を判断
-		e_write = CONV_SEN2WALL(sens.wall.exist_wall.r);					   // 右壁の有無を判断
-		w_write = CONV_SEN2WALL(sens.wall.exist_wall.l);					   // 左壁の有無を判断
+		n_write = CONV_SEN2WALL(sens->wall.exist.fr || sens->wall.exist.fl); // 前壁の有無を判断
+		e_write = CONV_SEN2WALL(sens->wall.exist.r);					   // 右壁の有無を判断
+		w_write = CONV_SEN2WALL(sens->wall.exist.l);					   // 左壁の有無を判断
 		s_write = NOWALL;										   // 後ろは必ず壁がない
 
 		break;
 
 	case EAST: // 東を向いているとき
 
-		e_write = CONV_SEN2WALL(sens.wall.exist_wall.fr || sens.wall.exist_wall.fl); // 前壁の有無を判断
-		s_write = CONV_SEN2WALL(sens.wall.exist_wall.r);					   // 右壁の有無を判断
-		n_write = CONV_SEN2WALL(sens.wall.exist_wall.l);					   // 左壁の有無を判断
+		e_write = CONV_SEN2WALL(sens->wall.exist.fr || sens->wall.exist.fl); // 前壁の有無を判断
+		s_write = CONV_SEN2WALL(sens->wall.exist.r);					   // 右壁の有無を判断
+		n_write = CONV_SEN2WALL(sens->wall.exist.l);					   // 左壁の有無を判断
 		w_write = NOWALL;										   // 後ろは必ず壁がない
 
 		break;
 
 	case SOUTH: // 南を向いているとき
 
-		s_write = CONV_SEN2WALL(sens.wall.exist_wall.fr || sens.wall.exist_wall.fl); // 前壁の有無を判断
-		w_write = CONV_SEN2WALL(sens.wall.exist_wall.r);					   // 右壁の有無を判断
-		e_write = CONV_SEN2WALL(sens.wall.exist_wall.l);					   // 左壁の有無を判断
+		s_write = CONV_SEN2WALL(sens->wall.exist.fr || sens->wall.exist.fl); // 前壁の有無を判断
+		w_write = CONV_SEN2WALL(sens->wall.exist.r);					   // 右壁の有無を判断
+		e_write = CONV_SEN2WALL(sens->wall.exist.l);					   // 左壁の有無を判断
 		n_write = NOWALL;										   // 後ろは必ず壁がない
 
 		break;
 
 	case WEST: // 西を向いているとき
 
-		w_write = CONV_SEN2WALL(sens.wall.exist_wall.fr || sens.wall.exist_wall.fl); // 前壁の有無を判断
-		n_write = CONV_SEN2WALL(sens.wall.exist_wall.r);					   // 右壁の有無を判断
-		s_write = CONV_SEN2WALL(sens.wall.exist_wall.l);					   // 左壁の有無を判断
+		w_write = CONV_SEN2WALL(sens->wall.exist.fr || sens->wall.exist.fl); // 前壁の有無を判断
+		n_write = CONV_SEN2WALL(sens->wall.exist.r);					   // 右壁の有無を判断
+		s_write = CONV_SEN2WALL(sens->wall.exist.l);					   // 左壁の有無を判断
 		e_write = NOWALL;										   // 後ろは必ず壁がない
 
 		break;
 	}
 
-	map.wall[x][y].north = n_write; // 実際に壁情報を書き込み
-	map.wall[x][y].south = s_write; // 実際に壁情報を書き込み
-	map.wall[x][y].east = e_write;	// 実際に壁情報を書き込み
-	map.wall[x][y].west = w_write;	// 実際に壁情報を書き込み
+	map->wall[x][y].north = n_write; // 実際に壁情報を書き込み
+	map->wall[x][y].south = s_write; // 実際に壁情報を書き込み
+	map->wall[x][y].east = e_write;	// 実際に壁情報を書き込み
+	map->wall[x][y].west = w_write;	// 実際に壁情報を書き込み
 
 	if (y < MAZESIZE_Y - 1) // 範囲チェック
 	{
-		map.wall[x][y + 1].south = n_write; // 反対側から見た壁を書き込み
+		map->wall[x][y + 1].south = n_write; // 反対側から見た壁を書き込み
 	}
 
 	if (x < MAZESIZE_X - 1) // 範囲チェック
 	{
-		map.wall[x + 1][y].west = e_write; // 反対側から見た壁を書き込み
+		map->wall[x + 1][y].west = e_write; // 反対側から見た壁を書き込み
 	}
 
 	if (y > 0) // 範囲チェック
 	{
-		map.wall[x][y - 1].north = s_write; // 反対側から見た壁を書き込み
+		map->wall[x][y - 1].north = s_write; // 反対側から見た壁を書き込み
 	}
 
 	if (x > 0) // 範囲チェック
 	{
-		map.wall[x - 1][y].east = w_write; // 反対側から見た壁を書き込み
+		map->wall[x - 1][y].east = w_write; // 反対側から見た壁を書き込み
 	}
 }
 
@@ -177,7 +177,7 @@ t_bool Adachi::is_unknown(int x, int y) // 指定された区画が未探索か�
 {
 	// 座標x,yが未探索区間か否かを調べる
 
-	if ((map.wall[x][y].north == UNKNOWN) || (map.wall[x][y].east == UNKNOWN) || (map.wall[x][y].south == UNKNOWN) || (map.wall[x][y].west == UNKNOWN))
+	if ((map->wall[x][y].north == UNKNOWN) || (map->wall[x][y].east == UNKNOWN) || (map->wall[x][y].south == UNKNOWN) || (map->wall[x][y].west == UNKNOWN))
 	{				 // どこかの壁情報が不明のままであれば
 		return TRUE; // 未探索
 	}
@@ -199,11 +199,11 @@ int Adachi::get_priority(int x, int y, t_direction dir) // そのマスの情報
 
 	priority = 0;
 
-	if (map.pos.dir == dir) // 行きたい方向が現在の進行方向と同じ場合
+	if (map->pos.dir == dir) // 行きたい方向が現在の進行方向と同じ場合
 	{
 		priority = 2;
 	}
-	else if (((4 + map.pos.dir - dir) % 4) == 2) // 行きたい方向が現在の進行方向と逆の場合
+	else if (((4 + map->pos.dir - dir) % 4) == 2) // 行きたい方向が現在の進行方向と逆の場合
 	{
 		priority = 0;
 	}
@@ -232,17 +232,17 @@ int Adachi::get_nextdir(int x, int y, int mask, t_direction *dir)
 	priority = 0; // 優先度の初期値は0
 
 	// maskの意味はstatic_parameter.hを参照
-	if ((map.wall[map.pos.x][map.pos.y].north & mask) == NOWALL) // 北に壁がなければ
+	if ((map->wall[map->pos.x][map->pos.y].north & mask) == NOWALL) // 北に壁がなければ
 	{
-		tmp_priority = get_priority(map.pos.x, map.pos.y + 1, NORTH); // 優先度を算出
-		if (map.size[map.pos.x][map.pos.y + 1] < little)					  // 一番歩数が小さい方向を見つける
+		tmp_priority = get_priority(map->pos.x, map->pos.y + 1, NORTH); // 優先度を算出
+		if (map->size[map->pos.x][map->pos.y + 1] < little)					  // 一番歩数が小さい方向を見つける
 		{
-			little = map.size[map.pos.x][map.pos.y + 1]; // ひとまず北が歩数が小さい事にする
+			little = map->size[map->pos.x][map->pos.y + 1]; // ひとまず北が歩数が小さい事にする
 			*dir = NORTH;						// 方向を保存
 			// now_dir = north;
 			priority = tmp_priority; // 優先度を保存
 		}
-		else if (map.size[map.pos.x][map.pos.y + 1] == little) // 歩数が同じ場合は優先度から判断する
+		else if (map->size[map->pos.x][map->pos.y + 1] == little) // 歩数が同じ場合は優先度から判断する
 		{
 			if (priority < tmp_priority) // 優先度を評価
 			{
@@ -253,17 +253,17 @@ int Adachi::get_nextdir(int x, int y, int mask, t_direction *dir)
 		}
 	}
 
-	if ((map.wall[map.pos.x][map.pos.y].east & mask) == NOWALL) // 東に壁がなければ
+	if ((map->wall[map->pos.x][map->pos.y].east & mask) == NOWALL) // 東に壁がなければ
 	{
-		tmp_priority = get_priority(map.pos.x + 1, map.pos.y, EAST); // 優先度を算出
-		if (map.size[map.pos.x + 1][map.pos.y] < little)					 // 一番歩数が小さい方向を見つける
+		tmp_priority = get_priority(map->pos.x + 1, map->pos.y, EAST); // 優先度を算出
+		if (map->size[map->pos.x + 1][map->pos.y] < little)					 // 一番歩数が小さい方向を見つける
 		{
-			little = map.size[map.pos.x + 1][map.pos.y]; // ひとまず東が歩数が小さい事にする
+			little = map->size[map->pos.x + 1][map->pos.y]; // ひとまず東が歩数が小さい事にする
 			*dir = EAST;						// 方向を保存
 			// now_dir = east;
 			priority = tmp_priority; // 優先度を保存
 		}
-		else if (map.size[map.pos.x + 1][map.pos.y] == little) // 歩数が同じ場合、優先度から判断
+		else if (map->size[map->pos.x + 1][map->pos.y] == little) // 歩数が同じ場合、優先度から判断
 		{
 			if (priority < tmp_priority) // 優先度を評価
 			{
@@ -274,17 +274,17 @@ int Adachi::get_nextdir(int x, int y, int mask, t_direction *dir)
 		}
 	}
 
-	if ((map.wall[map.pos.x][map.pos.y].south & mask) == NOWALL) // 南に壁がなければ
+	if ((map->wall[map->pos.x][map->pos.y].south & mask) == NOWALL) // 南に壁がなければ
 	{
-		tmp_priority = get_priority(map.pos.x, map.pos.y - 1, SOUTH); // 優先度を算出
-		if (map.size[map.pos.x][map.pos.y - 1] < little)					  // 一番歩数が小さい方向を見つける
+		tmp_priority = get_priority(map->pos.x, map->pos.y - 1, SOUTH); // 優先度を算出
+		if (map->size[map->pos.x][map->pos.y - 1] < little)					  // 一番歩数が小さい方向を見つける
 		{
-			little = map.size[map.pos.x][map.pos.y - 1]; // ひとまず南が歩数が小さい事にする
+			little = map->size[map->pos.x][map->pos.y - 1]; // ひとまず南が歩数が小さい事にする
 			*dir = SOUTH;						// 方向を保存
 			// now_dir = south;
 			priority = tmp_priority; // 優先度を保存
 		}
-		else if (map.size[map.pos.x][map.pos.y - 1] == little) // 歩数が同じ場合、優先度で評価
+		else if (map->size[map->pos.x][map->pos.y - 1] == little) // 歩数が同じ場合、優先度で評価
 		{
 			if (priority < tmp_priority) // 優先度を評価
 			{
@@ -295,17 +295,17 @@ int Adachi::get_nextdir(int x, int y, int mask, t_direction *dir)
 		}
 	}
 
-	if ((map.wall[map.pos.x][map.pos.y].west & mask) == NOWALL) // 西に壁がなければ
+	if ((map->wall[map->pos.x][map->pos.y].west & mask) == NOWALL) // 西に壁がなければ
 	{
-		tmp_priority = get_priority(map.pos.x - 1, map.pos.y, WEST); // 優先度を算出
-		if (map.size[map.pos.x - 1][map.pos.y] < little)					 // 一番歩数が小さい方向を見つける
+		tmp_priority = get_priority(map->pos.x - 1, map->pos.y, WEST); // 優先度を算出
+		if (map->size[map->pos.x - 1][map->pos.y] < little)					 // 一番歩数が小さい方向を見つける
 		{
-			little = map.size[map.pos.x - 1][map.pos.y]; // 西が歩数が小さい
+			little = map->size[map->pos.x - 1][map->pos.y]; // 西が歩数が小さい
 			*dir = WEST;						// 方向を保存
 			// now_dir = west;
 			priority = tmp_priority; // 優先度を保存
 		}
-		else if (map.size[map.pos.x - 1][map.pos.y] == little) // 歩数が同じ場合、優先度で評価
+		else if (map->size[map->pos.x - 1][map->pos.y] == little) // 歩数が同じ場合、優先度で評価
 		{
 			*dir = WEST; // 方向を保存
 			// now_dir = west;
@@ -313,7 +313,7 @@ int Adachi::get_nextdir(int x, int y, int mask, t_direction *dir)
 		}
 	}
 
-	return ((int)((4 + *dir - map.pos.dir) % 4)); // どっちに向かうべきかを返す。
+	return ((int)((4 + *dir - map->pos.dir) % 4)); // どっちに向かうべきかを返す。
 												// 演算の意味はmytyedef.h内のenum宣言から。
 }
 
@@ -331,48 +331,48 @@ void Adachi::search_adachi(int gx, int gy)
 		break;
 
 	case RIGHT:
-		turn_right();
+		//turn_right();
 		//printf("turn_right\n");
 		break;
 
 	case LEFT:
-		turn_left();
+		//turn_left();
 		//printf("turn_left\n");
 		break;
 
 	case REAR:
-		turn_half();
+		//turn_half();
 		//printf("turn_half\n");
 		break;
 	}
 
-	map.pos.dir = glob_nextdir; // 方向を更新
+	map->pos.dir = glob_nextdir; // 方向を更新
 
 	// 向いた方向によって自分の座標を更新する
-	switch (map.pos.dir)
+	switch (map->pos.dir)
 	{
 	case NORTH:
-		map.pos.y++; // 北を向いた時はY座標を増やす
+		map->pos.y++; // 北を向いた時はY座標を増やす
 		break;
 
 	case EAST:
-		map.pos.x++; // 東を向いた時はX座標を増やす
+		map->pos.x++; // 東を向いた時はX座標を増やす
 		break;
 
 	case SOUTH:
-		map.pos.y--; // 南を向いた時はY座標を減らす
+		map->pos.y--; // 南を向いた時はY座標を減らす
 		break;
 
 	case WEST:
-		map.pos.x--; // 西を向いたときはX座標を減らす
+		map->pos.x--; // 西を向いたときはX座標を減らす
 		break;
 	}
-	printf("map.pos.x = %d, map.pos.y = %d\n", map.pos.x, map.pos.y);
+	printf("map->pos.x = %d, map->pos.y = %d\n", map->pos.x, map->pos.y);
 
-	while ((map.pos.x != gx) || (map.pos.y != gy))
+	while ((map->pos.x != gx) || (map->pos.y != gy))
 	{ // ゴールするまで繰り返す
 
-		set_wall(map.pos.x, map.pos.y); // 壁をセット
+		set_wall(map->pos.x, map->pos.y); // 壁をセット
 
 		switch (get_nextdir(gx, gy, MASK_SEARCH, &glob_nextdir)) // 次に行く方向を戻り値とする関数を呼ぶ
 		{
@@ -383,65 +383,65 @@ void Adachi::search_adachi(int gx, int gy)
 
 		case RIGHT:
 			stop();
-			turn_right();
-			run_half();
+			//turn_right();
+			//run_half();
 			//printf("turn_right\n");
 			break;
 
 		case LEFT:
 			stop();
-			turn_left();
-			run_half();
+			//turn_left();
+			//run_half();
 			//printf("turn_left\n");
 			break;
 
 		case REAR:
 			stop();
-			turn_half();
-			run_half();
+			//turn_half();
+			//run_half();
 			//printf("turn_half\n");
 			break;
 		}
 
-		map.pos.dir = glob_nextdir; // 方向を更新
+		map->pos.dir = glob_nextdir; // 方向を更新
 
 		// 向いた方向によって自分の座標を更新する
-		switch (map.pos.dir)
+		switch (map->pos.dir)
 		{
 		case NORTH:
-			map.pos.y++; // 北を向いた時はY座標を増やす
+			map->pos.y++; // 北を向いた時はY座標を増やす
 			break;
 
 		case EAST:
-			map.pos.x++; // 東を向いた時はX座標を増やす
+			map->pos.x++; // 東を向いた時はX座標を増やす
 			break;
 
 		case SOUTH:
-			map.pos.y--; // 南を向いた時はY座標を減らす
+			map->pos.y--; // 南を向いた時はY座標を減らす
 			break;
 
 		case WEST:
-			map.pos.x--; // 西を向いたときはX座標を減らす
+			map->pos.x--; // 西を向いたときはX座標を減らす
 			break;
 		}
-		printf("map.pos.x = %d, map.pos.y = %d\n", map.pos.x, map.pos.y);
+		printf("map->pos.x = %d, map->pos.y = %d\n", map->pos.x, map->pos.y);
 	}
-	set_wall(map.pos.x, map.pos.y); // 壁をセット
+	set_wall(map->pos.x, map->pos.y); // 壁をセット
 
 	stop();
 	//("stop\n");
-	turn_half();
+	//turn_half();
 	//printf("turn_half\n");
 }
 
 void Adachi::InitMaze(){
 	for(int x=0;x<MAZESIZE_X;x++){
 		for(int y=0;y<MAZESIZE_Y;y++){
-			map.wall[x][y].north = map.wall[x][y].east = map.wall[x][y].south = map.wall[x][y].west = UNKNOWN;
-			if(x == 0)				map.wall[x][y].west = WALL;
-			if(x == MAZESIZE_X-1)	map.wall[x][y].east = WALL;
-			if(y == 0)				map.wall[x][y].south = WALL;
-			if(y == MAZESIZE_Y-1)	map.wall[x][y].north = WALL;
+			map->wall[x][y].north = map->wall[x][y].east = map->wall[x][y].south = map->wall[x][y].west = UNKNOWN;
+			if(x == 0)				map->wall[x][y].west = WALL;
+			if(x == MAZESIZE_X-1)	map->wall[x][y].east = WALL;
+			if(y == 0)				map->wall[x][y].south = WALL;
+			if(y == MAZESIZE_Y-1)	map->wall[x][y].north = WALL;
 		}
 	}
 }

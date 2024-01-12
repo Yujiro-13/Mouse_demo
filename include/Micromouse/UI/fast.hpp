@@ -1,12 +1,11 @@
 #ifndef FAST_HPP
 #define FAST_HPP
 
-#include <iostream>
-#include "Micromouse.hpp"
+//#include <iostream>
 #include "UI.hpp"
 
 
-class Fast : public UI, Micromouse
+class Fast : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -22,7 +21,7 @@ class Fast : public UI, Micromouse
         t_map *map;
 };
 
-class Fast2 : public UI, Micromouse
+class Fast2 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -38,7 +37,7 @@ class Fast2 : public UI, Micromouse
         t_map *map;
 };
 
-class Fast3 : public UI, Micromouse
+class Fast3 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -54,7 +53,7 @@ class Fast3 : public UI, Micromouse
         t_map *map;
 };
 
-class Fast4 : public UI, Micromouse
+class Fast4 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;

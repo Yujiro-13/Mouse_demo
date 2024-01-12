@@ -1,11 +1,10 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
-#include <iostream>
+//#include <iostream>
 #include "UI.hpp"
-#include "Micromouse.hpp"
 
-class Test : public UI, Micromouse
+class Test : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -21,7 +20,7 @@ class Test : public UI, Micromouse
         t_map *map;
 };
 
-class Test2 : public UI, Micromouse
+class Test2 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -37,7 +36,7 @@ class Test2 : public UI, Micromouse
         t_map *map;
 };
 
-class Test3 : public UI, Micromouse
+class Test3 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -53,7 +52,7 @@ class Test3 : public UI, Micromouse
         t_map *map;
 };
 
-class Test4 : public UI, Micromouse
+class Test4 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;

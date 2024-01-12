@@ -3,15 +3,7 @@
 
 #include <iostream>
 
-typedef struct
-{
-    uint8_t port;
-} i2c_port_t;
 
-typedef struct
-{
-    uint8_t bus;
-} spi_host_device_t;
 
 typedef struct 
 {
@@ -21,40 +13,16 @@ typedef struct
 
 typedef struct
 {
-    uint8_t cs;
-} gpio_num_t;
-
-typedef struct
-{
     uint8_t err;
 }esp_err_t;
 
-typedef struct
-{
-    uint8_t TRUE;
-    uint8_t FALSE;
-}t_bool;  
 
-typedef struct
-{
-    uint8_t dir;
 
-}t_direction;
 
-typedef struct 
-{
-    uint8_t _channel;
-}ledc_channel_t;
 
-typedef struct 
-{
-    uint8_t _timer;
-}ledc_timer_t;
 
-typedef struct
-{
-    uint8_t _channel;
-}adc_channel_t;
+
+
 
 typedef enum {
     GPIO_NUM_NC = -1,    /*!< Use to signal not connected to S/W */
@@ -128,6 +96,34 @@ typedef enum {
     LEDC_TIMER_3,     /*!< LEDC timer 3 */
     LEDC_TIMER_MAX,
 } ledc_timer_t;
+
+typedef struct {
+    //ledc_mode_t speed_mode;                /*!< LEDC speed speed_mode, high-speed mode or low-speed mode */
+    //ledc_timer_bit_t duty_resolution;      /*!< LEDC channel duty resolution */
+    ledc_timer_t  timer_num;               /*!< The timer source of channel (0 - LEDC_TIMER_MAX-1) */
+    uint32_t freq_hz;                      /*!< LEDC timer frequency (Hz) */
+    /*ledc_clk_cfg_t clk_cfg; */               /*!< Configure LEDC source clock from ledc_clk_cfg_t.
+                                                Note that LEDC_USE_RC_FAST_CLK and LEDC_USE_XTAL_CLK are
+                                                non-timer-specific clock sources. You can not have one LEDC timer uses
+                                                RC_FAST_CLK as the clock source and have another LEDC timer uses XTAL_CLK
+                                                as its clock source. All chips except esp32 and esp32s2 do not have
+                                                timer-specific clock sources, which means clock source for all timers
+                                                must be the same one. */
+} ledc_timer_config_t;
+
+typedef struct {
+    int gpio_num;                   /*!< the LEDC output gpio_num, if you want to use gpio16, gpio_num = 16 */
+    //ledc_mode_t speed_mode;         /*!< LEDC speed speed_mode, high-speed mode or low-speed mode */
+    ledc_channel_t channel;         /*!< LEDC channel (0 - LEDC_CHANNEL_MAX-1) */
+    //ledc_intr_type_t intr_type;     /*!< configure interrupt, Fade interrupt enable  or Fade interrupt disable */
+    ledc_timer_t timer_sel;         /*!< Select the timer source of channel (0 - LEDC_TIMER_MAX-1) */
+    uint32_t duty;                  /*!< LEDC channel duty, the range of duty setting is [0, (2**duty_resolution)] */
+    int hpoint;                     /*!< LEDC channel hpoint value, the max value is 0xfffff */
+    struct {
+        unsigned int output_invert: 1;/*!< Enable (1) or disable (0) gpio output invert */
+    } flags;                        /*!< LEDC flags */
+
+} ledc_channel_config_t;
 
 struct spi_transaction_t {
     uint32_t flags;                 ///< Bitwise OR of SPI_TRANS_* flags
@@ -333,7 +329,7 @@ typedef struct
     t_sens_dir ref;  //sensor value reference
     t_sens_dir th_wall;  //wall threshold value
     t_sens_dir th_control;   //control threshold value
-    t_wall_exist exist_wall; //wall true or false
+    t_wall_exist exist; //wall true or false
     t_wall_exist control_enable;  //control true or false
     t_bool wall_control;  //enable or disable
 }t_wall_sens;  //wall sensor data
@@ -373,6 +369,8 @@ typedef struct
     float gyroY = 0;
     float gyroZ = 0;
     uint16_t Angle = 0;
+    uint16_t Angle_R = 0;
+    uint16_t Angle_L = 0;
     float BatteryVoltage = 0;
     int sens_r_value = 0;
     int sens_l_value = 0;
@@ -491,14 +489,14 @@ typedef struct
 //extern t_wall_sens sens.wall;
 //extern t_gyro gyro;
 //extern t_enc enc;
-extern t_sens_data sens;
+//extern t_sens_data sens;
 //extern t_motion motion;
-extern t_mouse_motion_val m_val;
+//extern t_mouse_motion_val m_val;
 //extern t_motor mot;
 //extern t_pid pid;
-extern t_control ctl;
+//extern t_control ctl;
 //extern t_wall wall;
-extern t_map map;
+//extern t_map map;
 //extern t_pos mypos;
 //extern t_odom odom;
 

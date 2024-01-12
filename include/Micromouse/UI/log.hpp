@@ -1,11 +1,10 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
-#include <iostream>
+//#include <iostream>
 #include "UI.hpp"
-#include "Micromouse.hpp"
 
-class Log : public UI, Micromouse
+class Log : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -21,7 +20,7 @@ class Log : public UI, Micromouse
         t_map *map;
 };
 
-class Log1 : public UI, Micromouse
+class Log1 : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;

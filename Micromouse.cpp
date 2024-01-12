@@ -1,18 +1,28 @@
-//#include "include/Micromouse/Micromouse.hpp"
+// #include "include/Micromouse/Micromouse.hpp"
 #include "include/Micromouse/interrupt.hpp"
-//#include "include/Micromouse/UI/UI.hpp"
+// #include "include/Micromouse/UI/UI.hpp"
 #include "include/Micromouse/UI/fast.hpp"
 #include "include/Micromouse/UI/log.hpp"
 #include "include/Micromouse/UI/search.hpp"
 #include "include/Micromouse/UI/test.hpp"
 
 std::vector<std::shared_ptr<UI>> ui;
-std::vector<std::shared_ptr<Micromouse>> Mi;
+
+void MICROMOUSE();
+void set_interface();
+void call_task(UI *task);
+void set_param(Micromouse *task, t_sens_data *_sen, t_mouse_motion_val *_val, t_control *_control, t_map *_map);
+void mode_select(uint8_t *_mode_num, t_sens_data *sen, t_mouse_motion_val *val, t_control *control, t_map *map);
 
 /* 基本的に全ての処理のをここにまとめ、mainで呼び出す。 */
 
 void MICROMOUSE()
 {
+    IRLED_FR *LED_FR;
+    IRLED_FL *LED_FL;
+    IRLED_R *LED_R;
+    IRLED_L *LED_L;
+    
     /* モジュールクラスのインスタンス生成と初期化 */
     ADC adc(LED_FR, LED_FL, LED_R, LED_L, VBATT_CHANNEL);
     AS5047P enc_R(SPI3_HOST, ENC_CS_R);
@@ -31,12 +41,12 @@ void MICROMOUSE()
     Interrupt interrupt;
     uint8_t mode = 0;
     const int MODE_MAX = 0b0111;
-    const int MODE_MIN = 0; 
+    const int MODE_MIN = 0;
 
     /* ポインタの設定・構造体の共有 */
 
     // 制御系
-    interrupt.set_module(adc,enc_R,enc_L,buzzer,imu,led,motor);
+    interrupt.set_module(adc, enc_R, enc_L, buzzer, imu, led, motor);
     interrupt.ptr_by_sensor(&sen);
     interrupt.ptr_by_motion(&val);
     interrupt.ptr_by_control(&control);
@@ -48,20 +58,20 @@ void MICROMOUSE()
     enc_R.GetData(&sen);
     enc_L.GetData(&sen);
 
-
     while (1)
     {
-        led.set(mode+1);
+        std::cout << "mode:" << (int)mode << std::endl;
+        std::cin >> mode;
+        led.set(mode + 1);
         if (sen.wall.val.fl + sen.wall.val.l + sen.wall.val.r + sen.wall.val.fr > 3000)
         {
-        
+
             led.set(0b1111);
             sen.gyro.ref = imu.surveybias(1000);
             mode_select(&mode, &sen, &val, &control, &map);
             control.control_flag = FALSE;
             break;
         }
-        
 
         if (val.current.vel > 0.05)
         {
@@ -73,7 +83,7 @@ void MICROMOUSE()
             {
                 mode++;
             }
-            //vTaskDelay(pdMS_TO_TICKS(100));
+            // vTaskDelay(pdMS_TO_TICKS(100));
         }
         if (val.current.vel < -0.05)
         {
@@ -85,18 +95,15 @@ void MICROMOUSE()
             {
                 mode--;
             }
-            //vTaskDelay(pdMS_TO_TICKS(100));
+            // vTaskDelay(pdMS_TO_TICKS(100));
         }
-        
     }
-    //vTaskDelay(pdMS_TO_TICKS(10));
-    
+    // vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 void set_interface()
 {
     /* クラスのポインタを配列に保持*/
-    
 
     ui.push_back(std::make_shared<Search>());
     ui.push_back(std::make_shared<All_Search>());
@@ -137,4 +144,3 @@ void mode_select(uint8_t *_mode_num, t_sens_data *sen, t_mouse_motion_val *val, 
     call_task(ui[*_mode_num].get());
     std::cout << "mode_select" << std::endl;
 }
-

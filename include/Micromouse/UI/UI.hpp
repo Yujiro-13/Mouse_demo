@@ -1,7 +1,7 @@
 #ifndef UI_HPP
 #define UI_HPP
 
-#include "Micromouse.hpp"
+#include "../Micromouse.hpp"
 
 #define _interface struct
 

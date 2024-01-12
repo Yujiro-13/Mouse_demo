@@ -17,13 +17,14 @@ class Interrupt : public Micromouse{
         void ptr_by_control(t_control *control) override;
         void ptr_by_map(t_map *map) override;
         void set_module(ADC &_adc, AS5047P &_encR, AS5047P &_encL, BUZZER &_buz, MPU6500 &_imu, PCA9632 &_led, Motor &_mot) override;
+        void reset_I_gain();
     private:
         void calc_target();
         void wall_control();
         void feedback_control();
         void calc_distance();
         void calc_angle();
-        t_sens_data *sen;   // 後でexternの方を消し、こっちに書き換える
+        t_sens_data *sens;   // 後でexternの方を消し、こっちに書き換える
         t_mouse_motion_val *val;
         t_control *control;
         t_map *map;

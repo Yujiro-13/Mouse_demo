@@ -1,5 +1,4 @@
 #include "include/Driver/Motor.hpp"
-#include "peripheral.hpp"
 
 #define BDC_MCPWM_TIMER_RESOLUTION_HZ 10000000 // 10MHz, 1 tick = 0.1us
 #define BDC_MCPWM_FREQ_HZ             250000    // 250KHz PWM
@@ -9,14 +8,14 @@
 //bdc_motor_handle_t motor_r = NULL;
 //bdc_motor_handle_t motor_l = NULL;
 
-mcpwm_cmpr_handle_t comparator_r = NULL;
-mcpwm_cmpr_handle_t comparator_l = NULL;
+//mcpwm_cmpr_handle_t comparator_r = NULL;
+//mcpwm_cmpr_handle_t comparator_l = NULL;
 
 
 Motor::Motor(gpio_num_t ph_pin_R, gpio_num_t en_pin_R, gpio_num_t ph_pin_L, gpio_num_t en_pin_L, gpio_num_t fan_pin){
     //モタドラ
     //MODE GPIO40
-    gpio_config_t io_conf;
+    /*gpio_config_t io_conf;
     io_conf.intr_type = GPIO_INTR_DISABLE;
     io_conf.mode = GPIO_MODE_OUTPUT;
     io_conf.pin_bit_mask = 
@@ -99,7 +98,7 @@ Motor::Motor(gpio_num_t ph_pin_R, gpio_num_t en_pin_R, gpio_num_t ph_pin_L, gpio
         .duty           = 0,
         .hpoint         = 0
     };
-    ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel));
+    ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel));*/
 
     setMotorSpeed(0,0,0);
 }
@@ -107,7 +106,7 @@ Motor::~Motor(){}
 
 void Motor::setMotorSpeed(float spdR, float spdL,float fan){
 
-    if(spdR > 0)    gpio_set_level(BDC_R_MCPWM_GPIO_PH, 1); //  右モータ反転させてつけた
+    /*if(spdR > 0)    gpio_set_level(BDC_R_MCPWM_GPIO_PH, 1); //  右モータ反転させてつけた
     else            gpio_set_level(BDC_R_MCPWM_GPIO_PH, 0);
     if(spdL > 0)    gpio_set_level(BDC_L_MCPWM_GPIO_PH, 1);
     else            gpio_set_level(BDC_L_MCPWM_GPIO_PH, 0);
@@ -125,7 +124,7 @@ void Motor::setMotorSpeed(float spdR, float spdL,float fan){
 
 
     ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, fan * 256);
-    ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
+    ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);*/
 }
 
 void Motor::sincurve(){
@@ -142,6 +141,6 @@ void Motor::sincurve(){
         }
         setMotorSpeed(0.4,0.0,fan);
         t += 0.01;
-        vTaskDelay(1 / portTICK_PERIOD_MS);
+        //vTaskDelay(1 / portTICK_PERIOD_MS);
     }
 }

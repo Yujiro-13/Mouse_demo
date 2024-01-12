@@ -23,7 +23,7 @@ public:
     MPU6500(spi_host_device_t bus, gpio_num_t cs);
     ~MPU6500();
 
-    void GetData() override;
+    void GetData(t_sens_data *_sens) override;
     float surveybias(int reftime);
 
     int16_t accelX_raw();
@@ -52,10 +52,8 @@ private:
     uint8_t read(uint8_t reg);
     uint16_t read16(uint8_t reg);
     void write(uint8_t reg, uint8_t data);
-    gpio_num_t IMU_MISO = GPIO_NUM_11;
-    gpio_num_t IMU_MOSI = GPIO_NUM_12;
-    gpio_num_t IMU_CLK = GPIO_NUM_2;
-    gpio_num_t IMU_CS = GPIO_NUM_7;
+
+    t_sens_data *sen;
 };
 
 #endif

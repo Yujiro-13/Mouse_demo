@@ -8,7 +8,7 @@
 #include "driver/ledc.h"
 #include "esp_err.h"*/
 #include <iostream>
-#include "structs.hpp"
+#include "../Micromouse/structs.hpp"
 
 #define LEDC_MODE LEDC_LOW_SPEED_MODE
 #define LEDC_DUTY_RES LEDC_TIMER_10_BIT // Set duty resolution to 13 bits
@@ -23,7 +23,7 @@ public:
     void volume(uint32_t duty);
     void stop();
     void play();
-    void music(enum melody m);
+    //void music(enum melody m);
 
 private:
     ledc_channel_t _channel;

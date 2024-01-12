@@ -1,11 +1,10 @@
 #ifndef SEARCH_HPP
 #define SEARCH_HPP
 
-#include <iostream>
+//#include <iostream>
 #include "UI.hpp"
-#include "Micromouse.hpp"
 
-class Search : public UI, Micromouse
+class Search : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
@@ -21,7 +20,7 @@ class Search : public UI, Micromouse
         t_map *map;
 };
 
-class All_Search : public UI, Micromouse
+class All_Search : public UI
 {
     public:
         void ptr_by_sensor(t_sens_data *_sens) override;
