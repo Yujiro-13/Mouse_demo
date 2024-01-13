@@ -32,7 +32,7 @@ MPU6500::MPU6500(spi_host_device_t bus, gpio_num_t cs){
     if(who != MPU6500_WHO_AM_I){ //MPU6500 : read(0x75)  ICM20648 : read(0x00)
         printf("%d\r\n",who);
         printf("failed\r\n");
-        while (1) {} // Add a placeholder statement
+        // while (1) {} // Add a placeholder statement
         return;
     }
     

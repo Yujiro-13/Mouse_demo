@@ -66,11 +66,26 @@ void MICROMOUSE()
     enc_R.GetData(&sens);
     enc_L.GetData(&sens);
 
-    printf("mode: %d\n", mode);
-    scanf("%hhd \n", &mode);
+    printf("mode: ");
+    scanf("%hhd", &mode);
 
     while (1)
     {
+        printf("Enter mode: ");
+        scanf("%hhd", &mode);
+        printf("\n");
+
+        printf("Enter sens.wall.val.fl: ");
+        scanf("%d", &sens.wall.val.fl);
+
+        printf("Enter sens.wall.val.l: ");
+        scanf("%d", &sens.wall.val.l);
+
+        printf("Enter sens.wall.val.r: ");
+        scanf("%d", &sens.wall.val.r);
+
+        printf("Enter sens.wall.val.fr: ");
+        scanf("%d", &sens.wall.val.fr);
 
         led.set(mode + 1);
         if (sens.wall.val.fl + sens.wall.val.l + sens.wall.val.r + sens.wall.val.fr > 3000)
