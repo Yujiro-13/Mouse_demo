@@ -4,7 +4,7 @@
 //adc_oneshot_unit_handle_t adc1;
 
 // ADCのピン、チャンネルは構造体でそれぞれまとめたので、一括でクラス内で宣言したインスタンスに渡す
-ADC::ADC(IRLED_FR* led_fr, IRLED_FL* led_fl, IRLED_R* led_r, IRLED_L* led_l, adc_channel_t VBATT) : led_FR(*led_fr), led_FL(*led_fl), led_R(*led_r), led_L(*led_l)
+ADC::ADC(IRLED_FR &led_fr, IRLED_FL &led_fl, IRLED_R &led_r, IRLED_L &led_l, adc_channel_t VBATT) : led_FR(led_fr), led_FL(led_fl), led_R(led_r), led_L(led_l)
 {
     /*adc_oneshot_unit_init_cfg_t adc1_init = {};
     adc1_init.unit_id = ADC_UNIT_1;

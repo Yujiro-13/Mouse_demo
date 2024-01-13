@@ -13,7 +13,7 @@
 class ADC : public Sensor
 {
 public:
-    ADC(IRLED_FR* led_FR, IRLED_FL* led_FL, IRLED_R* led_R, IRLED_L* led_L, adc_channel_t VBATT);
+    ADC(IRLED_FR &led_FR, IRLED_FL &led_FL, IRLED_R &led_R, IRLED_L &led_L, adc_channel_t VBATT);
     ~ADC();
 
     void GetData(t_sens_data *_sens) override;

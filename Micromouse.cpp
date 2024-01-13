@@ -12,17 +12,19 @@ void MICROMOUSE();
 void set_interface();
 void call_task(UI *task);
 void set_param(Micromouse *task, t_sens_data *_sen, t_mouse_motion_val *_val, t_control *_control, t_map *_map);
-void mode_select(uint8_t *_mode_num, t_sens_data *sen, t_mouse_motion_val *val, t_control *control, t_map *map);
+void mode_select(uint8_t *_mode_num, t_sens_data *sens, t_mouse_motion_val *val, t_control *control, t_map *map);
 
 /* 基本的に全ての処理のをここにまとめ、mainで呼び出す。 */
 
 void MICROMOUSE()
 {
-    IRLED_FR *LED_FR;
-    IRLED_FL *LED_FL;
-    IRLED_R *LED_R;
-    IRLED_L *LED_L;
-    
+    IRLED_FR LED_FR;
+    IRLED_FL LED_FL;
+    IRLED_R LED_R;
+    IRLED_L LED_L;
+
+    printf("finish IRLED\n");
+
     /* モジュールクラスのインスタンス生成と初期化 */
     ADC adc(LED_FR, LED_FL, LED_R, LED_L, VBATT_CHANNEL);
     AS5047P enc_R(SPI3_HOST, ENC_CS_R);
@@ -32,11 +34,15 @@ void MICROMOUSE()
     PCA9632 led(I2C_NUM_0, LED_ADRS);
     Motor motor(BDC_R_MCPWM_GPIO_PH, BDC_R_MCPWM_GPIO_EN, BDC_L_MCPWM_GPIO_PH, BDC_L_MCPWM_GPIO_EN, FAN_PIN);
 
+    printf("finish module\n");
+
     /* 構造体のインスタンス生成 */
-    t_sens_data sen;
+    t_sens_data sens;
     t_mouse_motion_val val;
     t_control control;
     t_map map;
+
+    printf("finish struct\n");
 
     Interrupt interrupt;
     uint8_t mode = 0;
@@ -47,28 +53,32 @@ void MICROMOUSE()
 
     // 制御系
     interrupt.set_module(adc, enc_R, enc_L, buzzer, imu, led, motor);
-    interrupt.ptr_by_sensor(&sen);
+    interrupt.ptr_by_sensor(&sens);
     interrupt.ptr_by_motion(&val);
     interrupt.ptr_by_control(&control);
     interrupt.ptr_by_map(&map);
 
+    printf("finish interrupt\n");
+
     // センサ系
-    adc.GetData(&sen);
-    imu.GetData(&sen);
-    enc_R.GetData(&sen);
-    enc_L.GetData(&sen);
+    adc.GetData(&sens);
+    imu.GetData(&sens);
+    enc_R.GetData(&sens);
+    enc_L.GetData(&sens);
+
+    printf("mode: %d\n", mode);
+    scanf("%hhd \n", &mode);
 
     while (1)
     {
-        std::cout << "mode:" << (int)mode << std::endl;
-        std::cin >> mode;
+
         led.set(mode + 1);
-        if (sen.wall.val.fl + sen.wall.val.l + sen.wall.val.r + sen.wall.val.fr > 3000)
+        if (sens.wall.val.fl + sens.wall.val.l + sens.wall.val.r + sens.wall.val.fr > 3000)
         {
 
             led.set(0b1111);
-            sen.gyro.ref = imu.surveybias(1000);
-            mode_select(&mode, &sen, &val, &control, &map);
+            sens.gyro.ref = imu.surveybias(1000);
+            mode_select(&mode, &sens, &val, &control, &map);
             control.control_flag = FALSE;
             break;
         }
@@ -137,10 +147,10 @@ void set_param(Micromouse *task, t_sens_data *_sen, t_mouse_motion_val *_val, t_
     //
 }
 
-void mode_select(uint8_t *_mode_num, t_sens_data *sen, t_mouse_motion_val *val, t_control *control, t_map *map)
+void mode_select(uint8_t *_mode_num, t_sens_data *sens, t_mouse_motion_val *val, t_control *control, t_map *map)
 {
     set_interface();
-    set_param(ui[*_mode_num].get(), sen, val, control, map);
+    set_param(ui[*_mode_num].get(), sens, val, control, map);
     call_task(ui[*_mode_num].get());
     std::cout << "mode_select" << std::endl;
 }
