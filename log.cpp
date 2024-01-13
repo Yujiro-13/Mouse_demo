@@ -1,6 +1,6 @@
 #include "include/Micromouse/UI/log.hpp"
 
-void Log::ptr_by_sensor(t_sens_data *_sens) { sen = _sens; }
+void Log::ptr_by_sensor(t_sens_data *_sens) { sens = _sens; }
 
 void Log::ptr_by_motion(t_mouse_motion_val *_val) { val = _val; }
 
@@ -15,7 +15,7 @@ void Log::main_task()
     std::cout << "Log" << std::endl;
 }
 
-void Log1::ptr_by_sensor(t_sens_data *_sens) { sen = _sens; }
+void Log1::ptr_by_sensor(t_sens_data *_sens) { sens = _sens; }
 
 void Log1::ptr_by_motion(t_mouse_motion_val *_val) { val = _val; }
 

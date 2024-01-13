@@ -201,5 +201,5 @@ float MPU6500::gyroZ(){
 }
 
 void MPU6500::GetData(t_sens_data *_sens){
-    sen = _sens;
+    sens = _sens;
 }

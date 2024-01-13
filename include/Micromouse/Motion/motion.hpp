@@ -2,7 +2,7 @@
 #define MOTION_HPP
 
 #include <iostream>
-#include "../Micromouse/Micromouse.hpp"
+#include "../Micromouse.hpp"
 //#include "../Micromouse/interrupt.hpp"
 
 class Motion : Micromouse

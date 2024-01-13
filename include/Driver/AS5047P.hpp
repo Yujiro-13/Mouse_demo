@@ -34,7 +34,7 @@ private:
     spi_device_interface_config_t dev_enc;
     gpio_num_t _cs;
 
-    t_sens_data *sen;
+    t_sens_data *sens;
     
 };
 

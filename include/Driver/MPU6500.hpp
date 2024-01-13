@@ -53,7 +53,7 @@ private:
     uint16_t read16(uint8_t reg);
     void write(uint8_t reg, uint8_t data);
 
-    t_sens_data *sen;
+    t_sens_data *sens;
 };
 
 #endif
