@@ -8,7 +8,7 @@
 #include "driver/ledc.h"
 #include "esp_err.h"*/
 #include <iostream>
-#include "../Micromouse/structs.hpp"
+#include "../structs.hpp"
 
 #define LEDC_MODE LEDC_LOW_SPEED_MODE
 #define LEDC_DUTY_RES LEDC_TIMER_10_BIT // Set duty resolution to 13 bits

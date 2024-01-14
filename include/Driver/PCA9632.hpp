@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <math.h>
-#include "../Micromouse/structs.hpp"
+#include "../structs.hpp"
 
 
 class PCA9632

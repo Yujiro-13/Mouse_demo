@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string.h>
-#include "structs.hpp"
+#include "../structs.hpp"
 #include "Micromouse.hpp"
 
 

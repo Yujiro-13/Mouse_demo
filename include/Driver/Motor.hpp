@@ -7,7 +7,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"*/
 #include <math.h>
-#include "../Micromouse/structs.hpp"
+#include "../structs.hpp"
 
 
 class Motor

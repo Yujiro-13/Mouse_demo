@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <string>
-#include "../Micromouse/structs.hpp"
+#include "../structs.hpp"
 
 constexpr gpio_num_t LED_SDA = GPIO_NUM_37;
 constexpr gpio_num_t LED_SCL = GPIO_NUM_38;
