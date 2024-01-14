@@ -5,6 +5,8 @@
 #include "include/Micromouse/UI/log.hpp"
 #include "include/Micromouse/UI/search.hpp"
 #include "include/Micromouse/UI/test.hpp"
+#include "include/Micromouse/Motion/motion.hpp"
+#include "include/Micromouse/Motion/adachi.hpp"
 
 std::vector<std::shared_ptr<UI>> ui;
 
@@ -59,6 +61,15 @@ void MICROMOUSE()
     interrupt.ptr_by_map(&map);
 
     printf("finish interrupt\n");
+
+    // モーション系
+    Motion motion;
+    motion.ptr_by_sensor(&sens);
+    motion.ptr_by_motion(&val);
+    motion.ptr_by_control(&control);
+    motion.ptr_by_map(&map);
+
+    printf("finish motion\n");
 
     // センサ系
     adc.GetData(&sens);
